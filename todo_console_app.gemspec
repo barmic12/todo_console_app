@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["barmic12@gmail.com"]
 
   spec.summary       = "Simple app to manage your tasks."
-  spec.description   = "Application provides simple interface to manage you tasks using list."}
+  spec.description   = "Application provides simple interface to manage you tasks using list."
   spec.homepage      = "https://github.com/barmic12/todo_console_app"
   spec.license       = "MIT"
 
