@@ -1,8 +1,8 @@
 require "bundler/setup"
-require "todo_console_app"
-require 'database_cleaner'
 
 RSpec.configure do |config|
+
+  ENV['RUBY_ENV'] ||= 'test'
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"
 
@@ -24,3 +24,6 @@ RSpec.configure do |config|
     end
   end
 end
+
+require "todo_console_app"
+require 'database_cleaner'

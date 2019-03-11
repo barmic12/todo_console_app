@@ -1,13 +1,15 @@
 #require "todo_console_app/version"
 require 'sequel'
+ENV['RUBY_ENV'] ||= 'development'
 
 module TodoConsoleApp
-  class Error < StandardError; end
+
 
   class TodoList
     attr_reader :list, :tasks_table
 
-    DB = Sequel.sqlite('database/todos.db')
+    database_path = "database/todos_#{ENV['RUBY_ENV']}.db"
+    DB = Sequel.sqlite(database_path)
 
     def initialize
       @list = Array.new
