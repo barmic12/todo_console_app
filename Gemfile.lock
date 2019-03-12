@@ -6,6 +6,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    cli-ui (1.2.2)
     database_cleaner (1.7.0)
     diff-lcs (1.3)
     rake (10.5.0)
@@ -31,6 +32,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 1.17)
+  cli-ui
   database_cleaner
   rake (~> 10.0)
   rspec (~> 3.0)

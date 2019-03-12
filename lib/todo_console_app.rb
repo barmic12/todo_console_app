@@ -16,9 +16,6 @@ module TodoConsoleApp
   class TodoList
     attr_reader :list, :tasks_table
 
-
-
-
     DB = Sequel.sqlite(DATABASE_PATH)
 
     def initialize
