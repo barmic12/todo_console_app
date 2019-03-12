@@ -5,7 +5,9 @@ RSpec.describe TodoConsoleApp do
 
   describe TodoConsoleApp::TodoList do
     let(:todolist) { TodoConsoleApp::TodoList.new }
-    let(:task) { TodoConsoleApp::Task.new('Example task') }
+    let(:initialize_task_id) { 1 }
+    let(:task) { TodoConsoleApp::Task.new('Example task', initialize_task_id) }
+
 
     it { expect(todolist).to respond_to :list }
 
@@ -27,8 +29,7 @@ RSpec.describe TodoConsoleApp do
 
     describe '#add_to_list' do
       before do
-        task = TodoConsoleApp::Task.new('Example task')
-        todolist.add_to_list(task)
+        todolist.add_to_list('Example task')
       end
 
       it 'should return not empty list' do
@@ -47,9 +48,7 @@ RSpec.describe TodoConsoleApp do
 
     describe '#remove_from_list' do
       before do
-        task_title = 'Example task'
-        @task = TodoConsoleApp::Task.new(task_title)
-        todolist.add_to_list(@task)
+        @task = todolist.add_to_list('Example task')
       end
 
       it 'should remove task from array' do
@@ -68,7 +67,7 @@ RSpec.describe TodoConsoleApp do
 
     describe "#complete" do
       before do
-        todolist.add_to_list(task)
+        todolist.add_to_list('Example task')
       end
 
       it 'should can complete task' do
@@ -82,11 +81,9 @@ RSpec.describe TodoConsoleApp do
     describe "#filtered_list" do
 
       before do
-        2.times do
-          task = TodoConsoleApp::Task.new('Example task')
-          todolist.add_to_list(task)
-        end
-        todolist.list[0].complete
+        task_1 = todolist.add_to_list('Example task 1')
+        task_2 = todolist.add_to_list('Example task 2')
+        todolist.complete(task_2)
       end
 
       context 'all filter' do
@@ -127,10 +124,8 @@ RSpec.describe TodoConsoleApp do
 
     describe "#save_to_database" do
 
-      @task_title = 'Example task'
-
       it 'should create valid record in database' do
-        task = TodoConsoleApp::Task.new(@task_title)
+        task = TodoConsoleApp::Task.new('Example title', initialize_task_id)
         todolist.instance_eval{ save_to_database(task) }
         expect(todolist.tasks_table.first[:title]).to eq(task.title)
         expect(todolist.tasks_table.first[:completed]).to eq(task.completed)
@@ -139,7 +134,7 @@ RSpec.describe TodoConsoleApp do
 
     describe "#remove_from_database" do
       it 'should remove record from databse' do
-        task = TodoConsoleApp::Task.new('Example title')
+        task = TodoConsoleApp::Task.new('Example title', initialize_task_id)
         todolist.instance_eval{ save_to_database(task) }
         expect(todolist.tasks_table.count).to eq(1)
         todolist.instance_eval{ remove_from_database(task) }
@@ -149,7 +144,7 @@ RSpec.describe TodoConsoleApp do
 
     describe "#update_in_database" do
       it 'should update record in database' do
-        task = TodoConsoleApp::Task.new('Example title')
+        task = TodoConsoleApp::Task.new('Example title', initialize_task_id)
         todolist.instance_eval{ save_to_database(task) }
         status = task.completed
         todolist.instance_eval{ update_in_database(task) }
@@ -160,7 +155,9 @@ RSpec.describe TodoConsoleApp do
   end
 
   describe "Task class" do
-    let(:task) {TodoConsoleApp::Task.new('Test')}
+    let(:initialize_task_id) { 1 }
+    let(:task) {TodoConsoleApp::Task.new('Example task', initialize_task_id)}
+
 
     it { expect(task).to respond_to :title }
     it { expect(task).to respond_to :completed }
@@ -168,7 +165,7 @@ RSpec.describe TodoConsoleApp do
     describe "#initialize" do
       before do
         @title = "Init title"
-        @task = TodoConsoleApp::Task.new(@title)
+        @task = TodoConsoleApp::Task.new(@title, initialize_task_id)
       end
 
       it 'should has the title' do

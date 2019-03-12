@@ -1,4 +1,5 @@
 require "bundler/setup"
+require "database_cleaner"
 
 RSpec.configure do |config|
 
@@ -26,4 +27,3 @@ RSpec.configure do |config|
 end
 
 require "todo_console_app"
-require 'database_cleaner'

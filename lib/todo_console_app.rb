@@ -1,4 +1,3 @@
-#require "todo_console_app/version"
 require 'sequel'
 ENV['RUBY_ENV'] ||= 'development'
 
@@ -13,23 +12,32 @@ module TodoConsoleApp
 
     def initialize
       @list = Array.new
+      @next_id = 1
 
-      unless DB.table_exists? :tasks
+      if DB.table_exists? :tasks
+        DB[:tasks].select.each do |row|
+          @list << Task.new(row[:title], row[:id], row[:completed])
+        end
+        @next_id = DB[:tasks].max(:id).nil? ? @next_id : DB[:tasks].max(:id) + 1
+        puts "Data have been loaded from database!"
+      else
         DB.create_table(:tasks) do
             primary_key :id
         String :title
         Boolean :completed
         end
-
       end
 
       @tasks_table = DB[:tasks]
 
     end
 
-    def add_to_list(task)
+    def add_to_list(title)
+      task = Task.new(title, @next_id)
       @list.push(task)
       save_to_database(task)
+      @next_id += 1
+      task
     end
 
     def remove_from_list(task)
@@ -59,21 +67,22 @@ module TodoConsoleApp
     end
 
     def remove_from_database(task)
-      DB[:tasks].where(title: task.title).delete
+      DB[:tasks].where(id: task.id).delete
     end
 
     def update_in_database(task)
-      DB[:tasks].where(title: task.title).update(completed: true)
+      DB[:tasks].where(id: task.id).update(completed: true)
     end
 
   end
 
   class Task
-    attr_reader :title, :completed
+    attr_reader :id, :title, :completed
 
-    def initialize(title)
+    def initialize(title, id, completed = false)
+      @id = id
       @title = title
-      @completed = false
+      @completed = completed
     end
 
     def completed?
@@ -82,6 +91,10 @@ module TodoConsoleApp
 
     def complete
       @completed = true
+    end
+
+    def to_s
+      "##{@id} #{@title} (#{@completed ? "+" : "-"})"
     end
 
   end
