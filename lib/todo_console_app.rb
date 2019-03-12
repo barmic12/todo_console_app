@@ -1,14 +1,25 @@
 require 'sequel'
+require 'fileutils'
 ENV['RUBY_ENV'] ||= 'development'
 
 module TodoConsoleApp
 
 
+  DATABASE_DIRNAME = 'database'
+  FileUtils.mkdir_p(DATABASE_DIRNAME)
+
+  DATABASE_NAME = 'todos'
+  DATABASE_PATH = "#{DATABASE_DIRNAME}/#{DATABASE_NAME}_#{ENV['RUBY_ENV']}.db"
+
+  puts DATABASE_PATH
+
   class TodoList
     attr_reader :list, :tasks_table
 
-    database_path = "database/todos_#{ENV['RUBY_ENV']}.db"
-    DB = Sequel.sqlite(database_path)
+
+
+
+    DB = Sequel.sqlite(DATABASE_PATH)
 
     def initialize
       @list = Array.new

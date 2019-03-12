@@ -17,13 +17,7 @@ RSpec.describe TodoConsoleApp do
       end
 
 
-      it 'should create database' do
-        expect(File).to exist('database/todos.db')
-      end
-
-      it 'should create table in database' do
-        expect(todolist.tasks_table).to_not be_nil
-      end
+      #TODO write tests for two contexts (database exists and not)
 
     end
 
