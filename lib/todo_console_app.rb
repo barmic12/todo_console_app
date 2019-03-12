@@ -50,13 +50,21 @@ module TodoConsoleApp
     end
 
     def remove_from_list(task)
-      @list.delete(task)
-      remove_from_database(task)
+      if task.nil?
+        puts "You provided wrong ID"
+      else
+        @list.delete(task)
+        remove_from_database(task)
+      end
     end
 
     def complete(task)
-      task.complete
-      update_in_database(task)
+      if task.nil?
+        puts "You provided wrong ID"
+      else
+        task.complete
+        update_in_database(task)
+      end
     end
 
     def filtered_list(filter=:all)
