@@ -2,9 +2,7 @@
 
 [![Build Status](https://travis-ci.com/barmic12/todo_console_app.svg?branch=master)](https://travis-ci.com/barmic12/todo_console_app)
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/todo_console_app`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Application provides simple interface to manage you tasks using list.
 
 ## Installation
 
@@ -24,7 +22,34 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+You can run application using it in IRB:
+
+Run console:
+
+    $ irb
+
+Require lib:
+
+    $ require 'todo_console_app
+
+Run todo list:
+
+    $ TodoConsoleApp::App.run
+    
+
+Application provides user friendly interface using [cli-ui](https://github.com/Shopify/cli-ui).
+
+As a user you can:
+
+* add task
+* remove task
+* complete task
+* list all tasks
+* list only completed tasks
+* list only uncompleted tasks
+
+List of tasks is stored locally, using sqlite3 database.
+
 
 ## Development
 
